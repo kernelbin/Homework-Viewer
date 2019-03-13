@@ -1,4 +1,4 @@
-#include <Windows.h>
+ï»¿#include <Windows.h>
 #include<WinINet.h>
 #include<tchar.h>
 
@@ -28,7 +28,7 @@ EZWNDPROC ConfigProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 
 		Config = ezWnd;
 
-		AuthorityLevel = 0;//¼ÙÉèÄ¬ÈÏÃ»ÅäÖÃ¡£
+		AuthorityLevel = 0;//å‡è®¾é»˜è®¤æ²¡é…ç½®ã€‚
 
 		Caption = CreateEZWindow(ezWnd, 0, 0, ezWnd->Width, CONF_CAP_H, CaptionProc);
 
@@ -182,7 +182,7 @@ EZWNDPROC LogonProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 	{
 	case EZWM_CREATE:
 		IsLogOn = FALSE;
-		LogonBtn = CreateEZStyleWindow(ezWnd, TEXT("µÇÂ¼"), EZS_CHILD | EZS_BUTTON,
+		LogonBtn = CreateEZStyleWindow(ezWnd, TEXT("ç™»å½•"), EZS_CHILD | EZS_BUTTON,
 			(ezWnd->Width - 120) / 2, (ezWnd->Height - 50) / 2, 120, 50);
 		EZSendMessage(LogonBtn, EZWM_SETCOLOR, RGB(0, 0, 0), RGB(0, 0, 0));
 		FontForm.lfHeight = 50 * 0.6;
@@ -196,12 +196,12 @@ EZWNDPROC LogonProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 			if (TryLogonPlatform())
 			{
 				IsLogOn = TRUE;
-				EZSendMessage(LogonBtn, EZWM_SETTEXT, TEXT("µÇ³ö"), 0);
+				EZSendMessage(LogonBtn, EZWM_SETTEXT, TEXT("ç™»å‡º"), 0);
 				EZRepaint(LogonBtn, 0);
 			}
 			break;
 		case TRUE:
-			MessageBox(NULL, TEXT("°²È«ÍË³ö¹¦ÄÜÕıÔÚ¿ª·¢ÖĞ£¬ÇëÖ±½Ó¹Ø±Õ¸ÃÈí¼ş²¢ÖØĞÂ´ò¿ª¡£"), szAppName, 0);
+			MessageBox(NULL, TEXT("å®‰å…¨é€€å‡ºåŠŸèƒ½æ­£åœ¨å¼€å‘ä¸­ï¼Œè¯·ç›´æ¥å…³é—­è¯¥è½¯ä»¶å¹¶é‡æ–°æ‰“å¼€ã€‚"), szAppName, MB_TASKMODAL);
 			break;
 		}
 	}
@@ -219,7 +219,7 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 	{
 	case EZWM_CREATE:
 		FontForm.lfHeight = 35;
-		YearText = CreateEZStyleWindow(ezWnd, TEXT("Äê£º"), EZS_CHILD | EZS_STATIC, 60, 22, 45, 35);
+		YearText = CreateEZStyleWindow(ezWnd, TEXT("å¹´ï¼š"), EZS_CHILD | EZS_STATIC, 60, 22, 45, 35);
 		EZSendMessage(YearText, EZWM_SETTEXTALIGN, DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0);
 		YearText->Transparent = 0;
 		EZSendMessage(YearText, EZWM_SETFONT, 0, &FontForm);
@@ -228,7 +228,7 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 		EZSendMessage(YearEdit, EZWM_SETFONT, 0, &FontForm);
 		EZSendMessage(YearEdit, EZWM_SETMAXTEXT, 4, 0);
 
-		MonthText = CreateEZStyleWindow(ezWnd, TEXT("ÔÂ£º"), EZS_CHILD | EZS_STATIC, 205, 22, 45, 35);
+		MonthText = CreateEZStyleWindow(ezWnd, TEXT("æœˆï¼š"), EZS_CHILD | EZS_STATIC, 205, 22, 45, 35);
 		EZSendMessage(MonthText, EZWM_SETTEXTALIGN, DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0);
 		MonthText->Transparent = 0;
 		EZSendMessage(MonthText, EZWM_SETFONT, 0, &FontForm);
@@ -238,7 +238,7 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 		EZSendMessage(MonthEdit, EZWM_SETFONT, 0, &FontForm);
 		EZSendMessage(MonthEdit, EZWM_SETMAXTEXT, 2, 0);
 
-		DayText = CreateEZStyleWindow(ezWnd, TEXT("ÈÕ£º"), EZS_CHILD | EZS_STATIC, 310, 22, 45, 35);
+		DayText = CreateEZStyleWindow(ezWnd, TEXT("æ—¥ï¼š"), EZS_CHILD | EZS_STATIC, 310, 22, 45, 35);
 		EZSendMessage(DayText, EZWM_SETTEXTALIGN, DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0);
 		DayText->Transparent = 0;
 		EZSendMessage(DayText, EZWM_SETFONT, 0, &FontForm);
@@ -248,7 +248,7 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 		EZSendMessage(DayEdit, EZWM_SETFONT, 0, &FontForm);
 		EZSendMessage(DayEdit, EZWM_SETMAXTEXT, 2, 0);
 
-		//»ñÈ¡ÏÖÔÚµÄÄêÔÂÈÕ²¢ÌîÈë
+		//è·å–ç°åœ¨çš„å¹´æœˆæ—¥å¹¶å¡«å…¥
 		SYSTEMTIME CurrentTime;
 		GetLocalTime(&CurrentTime);
 
@@ -260,7 +260,7 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 		wsprintf(DateStrBuf, TEXT("%d"), CurrentTime.wDay);
 		EZSendMessage(DayEdit, EZWM_SETTEXT, DateStrBuf, 0);
 
-		QueryBtn = CreateEZStyleWindow(ezWnd, TEXT("²éÑ¯!!"), EZS_CHILD | EZS_BUTTON, 460, 15, 120, 50);
+		QueryBtn = CreateEZStyleWindow(ezWnd, TEXT("æŸ¥è¯¢!!"), EZS_CHILD | EZS_BUTTON, 460, 15, 120, 50);
 		EZSendMessage(QueryBtn, EZWM_SETTEXTALIGN, DT_CENTER | DT_VCENTER | DT_SINGLELINE, 0);
 		EZSendMessage(QueryBtn, EZWM_SETFONT, 0, &FontForm);
 		EZSendMessage(QueryBtn, EZWM_SETCOLOR, RGB(0, 0, 0), RGB(0, 0, 0));
@@ -316,7 +316,7 @@ EZWNDPROC HomeworkViewHoldProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM l
 
 		ScrollBar = CreateEZStyleWindow(ezWnd, TEXT(""), EZS_CHILD | EZS_CHILD_VSCROLL, ezWnd->Width - 24, 0, 24, ezWnd->Height);
 		ScrollLayer = CreateEZWindow(ezWnd, 0, 0, ezWnd->Width - 24, ezWnd->Height, HomeworkViewScrollLayer);
-		//MoveEZWindow(ezWnd->Extend->hExtend[1],//ÊúÖ±£¬V
+		//MoveEZWindow(ezWnd->Extend->hExtend[1],//ç«–ç›´ï¼ŒV
 		//	ezWnd->Width - 15, 0,
 		//	CHK_ALT_STYLE(ezWnd->EZStyle, EZS_VSCROLL) ? (15) : (0),
 		//	CHK_ALT_STYLE(ezWnd->EZStyle, EZS_HSCROLL) ? (ezWnd->Height - 15) : (ezWnd->Height)
@@ -349,7 +349,7 @@ EZWNDPROC HomeworkViewScrollLayer(EZWND ezWnd, int message, WPARAM wParam, LPARA
 	case EZWM_CREATE:
 		hdcBorder = GetMemDC(ezWnd->hdc, ezWnd->Width + 100, ezWnd->Height + 100);
 		PatBlt(hdcBorder, 0, 0, ezWnd->Width + 100, ezWnd->Height + 100, BLACKNESS);
-		//ĞŞ¸ÄÍ¸Ã÷²ã
+		//ä¿®æ”¹é€æ˜å±‚
 		{
 
 			HBITMAP hSel = SelectObject(hdcBorder, CreateCompatibleBitmap(hdcBorder, 1, 1));
@@ -421,12 +421,12 @@ EZWNDPROC HomeworkViewProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 
 
 	case EZWM_USER_NOTIFY:
-		if (wParam == 1)//²éÑ¯×÷Òµ
+		if (wParam == 1)//æŸ¥è¯¢ä½œä¸š
 		{
 
 			if (!hInetPlatform)
 			{
-				MessageBox(NULL, TEXT("ÄúÉĞÎ´µÇÂ½£¡ÇëÏÈµÇÂ¼£¡"), szAppName, 0);
+				MessageBox(NULL, TEXT("æ‚¨å°šæœªç™»é™†ï¼è¯·å…ˆç™»å½•ï¼"), szAppName, MB_TASKMODAL);
 				return 0;
 			}
 			HINTERNET GetHomeworkReq = 0;
@@ -446,12 +446,12 @@ EZWNDPROC HomeworkViewProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 				GetHomeworkReq = HttpOpenRequestW(hInetPlatform, L"GET", HomeworkRequsetURI, NULL, NULL, szAcceptTypes, 0, 0);
 				if (!GetHomeworkReq)
 				{
-					MessageBox(NULL, TEXT("HttpOpenRequestWº¯Êı³ö´í"), szAppName, 0);
+					MessageBox(NULL, TEXT("HttpOpenRequestWå‡½æ•°å‡ºé”™"), szAppName, MB_TASKMODAL);
 					__leave;
 				}
 				if (HttpSendRequestW(GetHomeworkReq, NULL, 0, 0, 0) == 0)
 				{
-					MessageBox(NULL, TEXT("·¢ËÍÁ¬½ÓÇëÇóÊ§°Ü£¡Çë¼ì²éÍøÂç£¡\r\n¾ßÌåĞÅÏ¢£ºHttpSendRequestWÖ´ĞĞ³ö´í"), szAppName, 0);
+					MessageBox(NULL, TEXT("å‘é€è¿æ¥è¯·æ±‚å¤±è´¥ï¼è¯·æ£€æŸ¥ç½‘ç»œï¼\r\nå…·ä½“ä¿¡æ¯ï¼šHttpSendRequestWæ‰§è¡Œå‡ºé”™"), szAppName, MB_TASKMODAL);
 					__leave;
 				}
 
@@ -467,7 +467,7 @@ EZWNDPROC HomeworkViewProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 
 				} while (!(bRet && num == 0));
 				GumboOutput * PhraseResult = gumbo_parse(DataBuf);
-				//dfsÎÄ±¾½Úµã
+				//dfsæ–‡æœ¬èŠ‚ç‚¹
 				memset(TextBuffer, 0, 32768);
 				TextNodeDFS(PhraseResult->document, TextBuffer);
 				gumbo_destroy_output(&kGumboDefaultOptions, PhraseResult);
@@ -505,7 +505,7 @@ int TextNodeDFS(GumboNode * node, char TextBuffer[])
 			case GUMBO_TAG_SCRIPT:
 			case GUMBO_TAG_STYLE:
 				break;
-			case GUMBO_TAG_A://TODO:ÈçºÎ´¦ÀíºÏÊÊ£¿
+			case GUMBO_TAG_A://TODO:å¦‚ä½•å¤„ç†åˆé€‚ï¼Ÿ
 				break;
 			default:
 				TextNodeDFS(node->v.element.children.data[i], TextBuffer);
@@ -514,7 +514,7 @@ int TextNodeDFS(GumboNode * node, char TextBuffer[])
 		}
 		break;
 	case GUMBO_NODE_TEXT:
-		//´Óorigional_textÀï½Ø»ñĞÅÏ¢
+		//ä»origional_texté‡Œæˆªè·ä¿¡æ¯
 
 	{
 		int iDst = strlen(TextBuffer);
@@ -578,13 +578,13 @@ EZWNDPROC AboutProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case EZWM_CREATE:
-		AboutTitle = CreateEZStyleWindow(ezWnd, TEXT("¹ØÓÚHomework Viewer"), EZS_CHILD | EZS_STATIC, 50, 30, ezWnd->Width, 60);
+		AboutTitle = CreateEZStyleWindow(ezWnd, TEXT("å…³äºHomework Viewer"), EZS_CHILD | EZS_STATIC, 50, 30, ezWnd->Width, 60);
 		FontForm.lfHeight = 60 * (4.0 / 7.0);
 		EZSendMessage(AboutTitle, EZWM_SETTEXTALIGN, DT_LEFT, 0);
 		EZSendMessage(AboutTitle, EZWM_SETFONT, 0, &FontForm);
 		AboutTitle->Transparent = 0;
 
-		AboutText = CreateEZStyleWindow(ezWnd, TEXT("°æ±¾£ºPrerelease 0.99 32Î»\r\n±àÒëÈÕÆÚ£º")TEXT(__DATE__)TEXT("\r\n\r\n"), EZS_CHILD | EZS_STATIC, 50, 85, ezWnd->Width, ezWnd->Height);
+		AboutText = CreateEZStyleWindow(ezWnd, TEXT("ç‰ˆæœ¬ï¼šPrerelease ")TEXT(szVersion)TEXT(" 32ä½\r\nç¼–è¯‘æ—¥æœŸï¼š")TEXT(__DATE__)TEXT("\r\n\r\næœ¬è½¯ä»¶éµå¾ªMITå¼€æºåè®®ï¼Œé¡¹ç›®åœ°å€ï¼šhttps://github.com/yh-git/Homework-Viewer \r\n\r\nHomework Viewerçš„è¯ç”Ÿç¦»ä¸å¼€Google Gumboè§£æåº“å’Œå…¶ä»–çš„å¼€æºè½¯ä»¶ã€‚\r\n\r\nå¦‚æœ‰Bugåé¦ˆï¼Œå»ºè®®ï¼Œå’Œå…¶ä»–é—®é¢˜è¯·ç›´æ¥è”ç³»yhã€‚\r\nå­¦ä¸šç¹å¿™ï¼Œå¦‚æœä¿®å¤Bugå’•å’•å’•äº†è¯·åŸè°…"), EZS_CHILD | EZS_STATIC, 50, 85, ezWnd->Width, ezWnd->Height);
 		FontForm.lfHeight = 40 * (4.0 / 7.0);
 		EZSendMessage(AboutText, EZWM_SETTEXTALIGN, DT_LEFT, 0);
 		EZSendMessage(AboutText, EZWM_SETFONT, 0, &FontForm);
@@ -639,12 +639,12 @@ BOOL TryLogonPlatform()
 	{
 		if (lstrlen(PlatformUsername) == 0 || lstrlen(PlatformPassword) == 0)
 		{
-			MessageBox(NULL, TEXT("ÇëÏÈµ½ ÉèÖÃ -> ÕËºÅ ÀïÊäÈëĞ£Ô°ÍøÓÃ»§ÃûÃÜÂë¡£"), szAppName, 0);
+			MessageBox(NULL, TEXT("è¯·å…ˆåˆ° è®¾ç½® -> è´¦å· é‡Œè¾“å…¥æ ¡å›­ç½‘ç”¨æˆ·åå¯†ç ã€‚"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 		if (!InternetCheckConnectionW(L"http://www.tjyfz1.edu.sh.cn/", FLAG_ICC_FORCE_CONNECTION, 0))
 		{
-			MessageBox(NULL, TEXT("³¢ÊÔ½¨Á¢ÍøÂçÁ¬½ÓÊ§°Ü£¡Çë³¢ÊÔ¼ì²éÍøÂç"), szAppName, 0);
+			MessageBox(NULL, TEXT("å°è¯•å»ºç«‹ç½‘ç»œè¿æ¥å¤±è´¥Î£ï¼ˆï¾ŸĞ´ï¾Ÿ|||ï¼‰\r\nè¯·å°è¯•æ£€æŸ¥ç½‘ç»œ"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 
@@ -652,14 +652,14 @@ BOOL TryLogonPlatform()
 		hInetGlobal = InternetOpenW(L"Homework Viewer", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 		if (!hInetGlobal)
 		{
-			MessageBox(NULL, TEXT("´´½¨ÍøÂçÁ¬½ÓÊ±·¢ÉúÒì³£\r\n¾ßÌåĞÅÏ¢£ºInternetOpenWÖ´ĞĞ³ö´í"), szAppName, 0);
+			MessageBox(NULL, TEXT("åˆ›å»ºç½‘ç»œè¿æ¥æ—¶å‘ç”Ÿå¼‚å¸¸Î£ï¼ˆï¾ŸĞ´ï¾Ÿ|||ï¼‰\r\nå…·ä½“ä¿¡æ¯ï¼šInternetOpenWæ‰§è¡Œå‡ºé”™"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 
 		hInetPlatform = InternetConnectW(hInetGlobal, L"www.tjyfz1.edu.sh.cn", INTERNET_DEFAULT_HTTP_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
 		if (!hInetPlatform)
 		{
-			MessageBox(NULL, TEXT("´´½¨ÍøÂçÁ¬½ÓÊ±·¢ÉúÒì³£\r\n¾ßÌåĞÅÏ¢£ºInternetConnectWÖ´ĞĞ³ö´í"), szAppName, 0);
+			MessageBox(NULL, TEXT("åˆ›å»ºç½‘ç»œè¿æ¥æ—¶å‘ç”Ÿå¼‚å¸¸Î£ï¼ˆï¾ŸĞ´ï¾Ÿ|||ï¼‰\r\nå…·ä½“ä¿¡æ¯ï¼šInternetConnectWæ‰§è¡Œå‡ºé”™"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 
@@ -667,12 +667,12 @@ BOOL TryLogonPlatform()
 		hInetLogonIndex = HttpOpenRequestW(hInetPlatform, L"GET", L"/index.asp", NULL, NULL, szAcceptTypes, 0, 0);
 		if (!hInetLogonIndex)
 		{
-			MessageBox(NULL, TEXT("HttpOpenRequestWº¯Êı³ö´í"), szAppName, 0);
+			MessageBox(NULL, TEXT("HttpOpenRequestWå‡½æ•°å‡ºé”™"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 		if (HttpSendRequestW(hInetLogonIndex, NULL, 0, 0, 0) == 0)
 		{
-			MessageBox(NULL, TEXT("·¢ËÍÁ¬½ÓÇëÇóÊ§°Ü£¡Çë¼ì²éÍøÂç£¡\r\n¾ßÌåĞÅÏ¢£ºHttpSendRequestWÖ´ĞĞ³ö´í"), szAppName, 0);
+			MessageBox(NULL, TEXT("å‘é€è¿æ¥è¯·æ±‚å¤±è´¥ï¼è¯·æ£€æŸ¥ç½‘ç»œÎ£ï¼ˆï¾ŸĞ´ï¾Ÿ|||ï¼‰\r\nå…·ä½“ä¿¡æ¯ï¼šHttpSendRequestWæ‰§è¡Œå‡ºé”™"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 		DWORD error = GetLastError();
@@ -680,7 +680,7 @@ BOOL TryLogonPlatform()
 		hInetLogonIndex = 0;
 
 
-		//ºÏ²¢ÓÃ»§ÃûÃÜÂëÎªÒ»¸ö´ó×Ö·û´®£¬£¨ÓÃ»§Ãû+&+ÃÜÂë£© È»ºó×ªUTF8£¬È»ºóURI Encode
+		//åˆå¹¶ç”¨æˆ·åå¯†ç ä¸ºä¸€ä¸ªå¤§å­—ç¬¦ä¸²ï¼Œï¼ˆç”¨æˆ·å+&+å¯†ç ï¼‰ ç„¶åè½¬UTF8ï¼Œç„¶åURI Encode
 
 		TCHAR EncodeBuffer[60] = { 0 };
 		wsprintf(EncodeBuffer, TEXT("%s&%s"), PlatformUsername, PlatformPassword);
@@ -696,7 +696,7 @@ BOOL TryLogonPlatform()
 		StrToEncode = EncodeBuffer;
 #endif
 
-		//½«StrToEncode×ªÎª UTF-8
+		//å°†StrToEncodeè½¬ä¸º UTF-8
 		char UTF8Buf[256] = { 0 };
 		char RawCode[1024] = { 0 };
 		WideCharToMultiByte(CP_UTF8, 0, StrToEncode, lstrlenW(StrToEncode), UTF8Buf, 256, 0, 0);
@@ -706,7 +706,7 @@ BOOL TryLogonPlatform()
 		free(StrToEncode);
 #endif
 
-		//Ëæ»úµØÖ·³Ø£¬26*26
+		//éšæœºåœ°å€æ± ï¼Œ26*26
 		int AddrPool[676];
 		int AddrPoolSize = 676;
 		for (int i = 0; i < AddrPoolSize; i++)
@@ -729,7 +729,7 @@ BOOL TryLogonPlatform()
 			sprintf_s(AsciiBuf, 5, "%da", RawCode[i]);
 			for (int Asc = 0; AsciiBuf[Asc]; Asc++)
 			{
-				//´ÓµØÖ·³ØËæ»úÑ¡µØÖ·³öÀ´£¬È»ºóµ÷ÕûµØÖ·³Ø£¬°Ñ×Ö·ûÈû½øËæ»ú´ó´®
+				//ä»åœ°å€æ± éšæœºé€‰åœ°å€å‡ºæ¥ï¼Œç„¶åè°ƒæ•´åœ°å€æ± ï¼ŒæŠŠå­—ç¬¦å¡è¿›éšæœºå¤§ä¸²
 				int AddrRand = rand() % AddrPoolSize;
 				userIDStr[AddrPool[AddrRand] + 26] = AsciiBuf[Asc];
 				sess[SessLen++] = 'A' + AddrPool[AddrRand] / 26;
@@ -737,10 +737,10 @@ BOOL TryLogonPlatform()
 				AddrPool[AddrRand] = AddrPool[--AddrPoolSize];
 			}
 		}
-		//sess×îºó¶àµÄÄÇ¸öa¿Ûµô
+		//sessæœ€åå¤šçš„é‚£ä¸ªaæ‰£æ‰
 		sess[SessLen - 2] = 0;
 
-		//ÕâÀï£¬ÉèÖÃCookies
+		//è¿™é‡Œï¼Œè®¾ç½®Cookies
 		InternetSetCookieA("http://www.tjyfz1.edu.sh.cn", "sess",
 			sess);
 
@@ -749,7 +749,7 @@ BOOL TryLogonPlatform()
 			0);
 		if (!hInetLogonRequest)
 		{
-			MessageBox(NULL, TEXT("HttpOpenRequestWº¯Êı³ö´í"), szAppName, 0);
+			MessageBox(NULL, TEXT("HttpOpenRequestWå‡½æ•°å‡ºé”™Î£ï¼ˆï¾ŸĞ´ï¾Ÿ|||ï¼‰"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 		char ContentBuf[2048];
@@ -760,7 +760,7 @@ BOOL TryLogonPlatform()
 		{
 			if (HttpSendRequestW(hInetLogonIndex, NULL, 0, 0, 0) == 0)
 			{
-				MessageBox(NULL, TEXT("·¢ËÍÁ¬½ÓÇëÇóÊ§°Ü£¡Çë¼ì²éÍøÂç£¡\r\n¾ßÌåĞÅÏ¢£ºHttpSendRequestWÖ´ĞĞ³ö´í"), szAppName, 0);
+				MessageBox(NULL, TEXT("å‘é€è¿æ¥è¯·æ±‚å¤±è´¥ï¼è¯·æ£€æŸ¥ç½‘ç»œÎ£ï¼ˆï¾ŸĞ´ï¾Ÿ|||ï¼‰\r\nå…·ä½“ä¿¡æ¯ï¼šHttpSendRequestWæ‰§è¡Œå‡ºé”™"), szAppName, MB_TASKMODAL);
 				__leave;
 			}
 		}
@@ -770,7 +770,7 @@ BOOL TryLogonPlatform()
 		InternetGetCookieW(L"http://www.tjyfz1.edu.sh.cn", L"cok", cokBuf, &cokSize);
 		if (lstrlenW(cokBuf) <= 100)
 		{
-			MessageBox(NULL, TEXT("µÇÂ½Ê§°Ü£¡"), szAppName, 0);
+			MessageBox(NULL, TEXT("ç™»é™†å¤±è´¥ï¼Î£ï¼ˆï¾ŸĞ´ï¾Ÿ|||ï¼‰"), szAppName, MB_TASKMODAL);
 			__leave;
 		}
 
@@ -781,7 +781,7 @@ BOOL TryLogonPlatform()
 	{
 		if (bRet == FALSE)
 		{
-			//ÇåÀí
+			//æ¸…ç†
 			if (hInetGlobal)
 			{
 				InternetCloseHandle(hInetGlobal);

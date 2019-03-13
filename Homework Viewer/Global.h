@@ -5,9 +5,13 @@
 
 //***************************************常量定义
 
-/* * *程序名称定义* * */
+/* * *程序名称定义和版本号* * */
 
 static TCHAR szAppName[] = TEXT("Homework Viewer");
+
+#define lfVersion 0.98
+#define szVersion  "0.98"
+#define szwVersion  L"0.98"
 
 
 /* * *界面大小定义* * */
@@ -41,7 +45,7 @@ static TCHAR szAppName[] = TEXT("Homework Viewer");
 /* * *界面色彩定义* * */
 
 
-#define APP_COLOR RGB(20,122,204)
+COLORREF APP_COLOR;
 
 #define APP_BK_COLOR RGB(239,235,239)
 
@@ -164,3 +168,7 @@ TCHAR PlatformPassword[30];
 
 
 int URLEncode(const char* str, const int strSize, char* result, const int resultSize);
+
+int SettingsRead();
+
+BOOL SettingsWrite();

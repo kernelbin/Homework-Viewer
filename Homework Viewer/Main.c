@@ -7,7 +7,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	MSG          msg;
 	InitEZWindow();
-
+	if (SettingsRead() != 0)
+	{
+		APP_COLOR = RGB(20, 122, 204);
+	}
+	//
 	GDIObjectCreate();
 
 	Config = CreateEZParentWindow(

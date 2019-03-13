@@ -3,7 +3,7 @@
 
 
 
-#define REG_STORE_PLACE HKEY_LOCAL_MACHINE
+#define REG_STORE_PLACE HKEY_CURRENT_USER
 
 
 int SettingsRead()
@@ -44,7 +44,16 @@ int SettingsRead()
 		}
 		Base64Decode(Base64Buf, PlatformPassword);
 		
-
+		Length = sizeof(DWORD);
+		DWORD ColorBuf;
+		l = RegQueryValueEx(hKey, TEXT("AppColor"), 0, &Type, &ColorBuf, &Length);
+		if (l != ERROR_SUCCESS)
+		{
+			//出错了
+			RegCloseKey(hKey);
+			return 1;
+		}
+		APP_COLOR = ColorBuf;
 
 	}
 	else if (l == ERROR_FILE_NOT_FOUND)
@@ -82,22 +91,34 @@ BOOL SettingsWrite()
 	{
 		/*成功创建，继续。*/
 
-		size_t b_UsernameLen, b_PasswordLen;
-
-		TCHAR Base64Buf[60] = { 0 };
-		Base64Encode(PlatformUsername, Base64Buf);
-
-		if (StringCbLength(Base64Buf, 60 * sizeof(TCHAR), &b_UsernameLen) == S_OK)
+		//if (WritePlatformInfo)
 		{
-			RegSetValueEx(hKey, TEXT("PlatformUsername"), 0, REG_SZ, Base64Buf, b_UsernameLen);
+			size_t b_UsernameLen, b_PasswordLen;
+
+			TCHAR Base64Buf[60] = { 0 };
+			Base64Encode(PlatformUsername, Base64Buf);
+
+			if (StringCbLength(Base64Buf, 60 * sizeof(TCHAR), &b_UsernameLen) == S_OK)
+			{
+				RegSetValueEx(hKey, TEXT("PlatformUsername"), 0, REG_SZ, Base64Buf, b_UsernameLen);
+			}
+
+			Base64Encode(PlatformPassword, Base64Buf);
+			if (StringCbLength(Base64Buf, 60 * sizeof(TCHAR), &b_PasswordLen) == S_OK)
+			{
+				RegSetValueEx(hKey, TEXT("PlatformPassword"), 0, REG_SZ, Base64Buf, b_PasswordLen);
+			}
+		}
+		
+
+		//if (WriteColor)
+		{
+			DWORD dwColor = APP_COLOR;
+			RegSetValueEx(hKey, TEXT("AppColor"), 0, REG_DWORD, &dwColor, sizeof(DWORD));
 		}
 
-		Base64Encode(PlatformPassword, Base64Buf);
-		if (StringCbLength(Base64Buf, 60 * sizeof(TCHAR), &b_PasswordLen) == S_OK)
-		{
-			RegSetValueEx(hKey, TEXT("PlatformPassword"), 0, REG_SZ, Base64Buf, b_PasswordLen);
-		}
-
+		//版本，必须写入
+		RegSetValueEx(hKey, TEXT("Version"), 0, REG_SZ, szwVersion, lstrlenW(szwVersion)*sizeof(WCHAR));
 	}
 
 	RegCloseKey(hKey);
