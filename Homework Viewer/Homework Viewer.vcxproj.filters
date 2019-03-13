@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Gumbo">
+      <UniqueIdentifier>{73d5a646-cc77-4833-a73f-982294ac32c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Border.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Caption.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyWindow.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GDIObjManager.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPage.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\attribute.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\char_ref.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\error.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\parser.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\string_buffer.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\string_piece.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\tag.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\tokenizer.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\utf8.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\util.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="Gumbo\vector.c">
+      <Filter>Gumbo</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicSettings.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GaussianBlur.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsRW.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Base64.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="URI.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EasyWindow.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\attribute.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\char_ref.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\error.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\gumbo.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\insertion_mode.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\parser.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\string_buffer.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\string_piece.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\tag_enum.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\tag_gperf.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\tag_sizes.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\tag_strings.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\token_type.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\tokenizer.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\tokenizer_states.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\utf8.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\util.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Gumbo\vector.h">
+      <Filter>Gumbo</Filter>
+    </ClInclude>
+    <ClInclude Include="strings.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GaussianBlur.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Gumbo\char_ref.rl">
+      <Filter>Gumbo</Filter>
+    </None>
+    <None Include="Gumbo\tag.in">
+      <Filter>Gumbo</Filter>
+    </None>
+  </ItemGroup>
+</Project>
