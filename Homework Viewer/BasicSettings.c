@@ -410,7 +410,7 @@ EZWNDPROC UpdatePageProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 			DWORD Readed;
 
 			//打开文件
-			UpdateFile = CreateFile(TEXT("Homework Viewer.exe"), GENERIC_ALL, 0, 0, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, 0);
+			UpdateFile = CreateFile(TEXT("Homework Viewer RC.exe"), GENERIC_ALL, 0, 0, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, 0);
 			if (!UpdateFile)__leave;
 
 			BOOL bRet = 0;
@@ -452,7 +452,7 @@ EZWNDPROC UpdatePageProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 				PROCESS_INFORMATION pi = { 0 };
 
 				MessageBox(NULL, TEXT("更新完毕"), szAppName, MB_TASKMODAL);
-				CreateProcess(TEXT("Homework Viewer.exe"), NULL, 0, 0, 0, 0, 0, 0, &si, &pi);
+				CreateProcess(TEXT("Homework Viewer RC.exe"), TEXT(" -upd"), 0, 0, 0, 0, 0, 0, &si, &pi);
 				CloseHandle(pi.hProcess);
 				CloseHandle(pi.hThread);
 				PostQuitMessage(0);

@@ -9,9 +9,9 @@
 
 static TCHAR szAppName[] = TEXT("Homework Viewer");
 
-#define lfVersion 0.98
-#define szVersion  "0.98"
-#define szwVersion  L"0.98"
+#define lfVersion 0.99
+#define szVersion  "0.99"
+#define szwVersion  L"0.99"
 
 
 /* * *界面大小定义* * */
@@ -98,6 +98,10 @@ EZWNDPROC BasicSettingsProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPar
 
 EZWNDPROC AboutProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam);
 
+
+
+EZWNDPROC SendToQQDlgProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam);
+
 BOOL PopupWin(int x, int y, int w, int h, EZWNDPROC Proc);
 
 BOOL UnPopupWin();
@@ -172,3 +176,9 @@ int URLEncode(const char* str, const int strSize, char* result, const int result
 int SettingsRead();
 
 BOOL SettingsWrite();
+
+
+
+//作业文本
+
+char TextBuffer[32768];

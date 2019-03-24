@@ -6,6 +6,8 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow)
 {
 	MSG          msg;
+	//删除老版本文件
+	DeleteFile(TEXT("TYF Homework Viewer.exe"));
 	InitEZWindow();
 	if (SettingsRead() != 0)
 	{

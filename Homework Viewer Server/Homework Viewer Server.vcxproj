@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{687BBE45-9057-420C-8418-CA09FC25F598}</ProjectGuid>
+    <ProjectGuid>{F764085F-BF66-44CA-80F3-169A98EF68C8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>HomeworkViewer</RootNamespace>
+    <RootNamespace>HomeworkViewerServer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,28 +70,45 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -100,29 +117,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -133,78 +132,21 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base64.c" />
-    <ClCompile Include="BasicSettings.c" />
-    <ClCompile Include="Border.c" />
-    <ClCompile Include="Caption.c" />
-    <ClCompile Include="cJSON.c" />
-    <ClCompile Include="Config.c" />
-    <ClCompile Include="EasyWindow.c" />
-    <ClCompile Include="GaussianBlur.c" />
-    <ClCompile Include="GDIObjManager.c" />
-    <ClCompile Include="Gumbo\attribute.c" />
-    <ClCompile Include="Gumbo\char_ref.c" />
-    <ClCompile Include="Gumbo\error.c" />
-    <ClCompile Include="Gumbo\parser.c" />
-    <ClCompile Include="Gumbo\string_buffer.c" />
-    <ClCompile Include="Gumbo\string_piece.c" />
-    <ClCompile Include="Gumbo\tag.c" />
-    <ClCompile Include="Gumbo\tokenizer.c" />
-    <ClCompile Include="Gumbo\utf8.c" />
-    <ClCompile Include="Gumbo\util.c" />
-    <ClCompile Include="Gumbo\vector.c" />
-    <ClCompile Include="Jpeg.c" />
     <ClCompile Include="Main.c" />
-    <ClCompile Include="MainPage.c" />
-    <ClCompile Include="SettingsRW.c" />
-    <ClCompile Include="URI.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cJSON.h" />
-    <ClInclude Include="EasyWindow.h" />
-    <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="Gumbo\attribute.h" />
-    <ClInclude Include="Gumbo\char_ref.h" />
-    <ClInclude Include="Gumbo\error.h" />
-    <ClInclude Include="Gumbo\gumbo.h" />
-    <ClInclude Include="Gumbo\insertion_mode.h" />
-    <ClInclude Include="Gumbo\parser.h" />
-    <ClInclude Include="Gumbo\string_buffer.h" />
-    <ClInclude Include="Gumbo\string_piece.h" />
-    <ClInclude Include="Gumbo\tag_enum.h" />
-    <ClInclude Include="Gumbo\tag_gperf.h" />
-    <ClInclude Include="Gumbo\tag_sizes.h" />
-    <ClInclude Include="Gumbo\tag_strings.h" />
-    <ClInclude Include="Gumbo\tokenizer.h" />
-    <ClInclude Include="Gumbo\tokenizer_states.h" />
-    <ClInclude Include="Gumbo\token_type.h" />
-    <ClInclude Include="Gumbo\utf8.h" />
-    <ClInclude Include="Gumbo\util.h" />
-    <ClInclude Include="Gumbo\vector.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="strings.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Gumbo\char_ref.rl" />
-    <None Include="Gumbo\tag.in" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Homework Viewer.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="QRCode.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

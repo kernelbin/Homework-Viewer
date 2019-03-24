@@ -87,6 +87,12 @@
     <ClCompile Include="URI.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="cJSON.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Jpeg.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EasyWindow.h">
@@ -155,6 +161,12 @@
     <ClInclude Include="GaussianBlur.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cJSON.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Gumbo\char_ref.rl">
@@ -163,5 +175,15 @@
     <None Include="Gumbo\tag.in">
       <Filter>Gumbo</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Homework Viewer.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="QRCode.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

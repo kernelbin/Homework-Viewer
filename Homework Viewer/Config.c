@@ -10,7 +10,8 @@
 #include<time.h>
 #include"Gumbo/gumbo.h"
 #include"GaussianBlur.h"
-
+#include"cJSON.h"
+#include"resource.h"
 #pragma comment(lib,"WinINet.lib")
 
 
@@ -51,7 +52,9 @@ EZWNDPROC ConfigProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 
 
 		return 0;
-
+	case EZWM_LBUTTONUP:
+		if (PopupWnd)EZSendMessage(PopupWnd, EZWM_COMMAND, 1, ezWnd);
+		break;
 	case EZWM_TIMER:
 		if (MaskChangeFlag == 0)
 		{
@@ -113,9 +116,11 @@ EZWNDPROC MaskProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 		if (MaskWnd)
 			BitBlt(wParam, MaskWnd->px - ezWnd->px, MaskWnd->py - ezWnd->py, MaskWnd->Width, MaskWnd->Height, MaskWnd->hdc, 0, 0, SRCCOPY);
 		return 0;
+
 	case EZWM_TRANSDRAW:
 		PatBlt(wParam, 0, 0, ezWnd->Width, ezWnd->Height, BLACKNESS);
 		return 0;
+
 	}
 }
 
@@ -212,9 +217,8 @@ EZWNDPROC LogonProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 
 EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 {
-	static EZWND YearText, MonthText, DayText;
-	static EZWND QueryBtn;
-	static EZWND ViewPageWnd;
+	static EZWND YearText, MonthText, DayText, ViewPageWnd;
+	static EZWND QueryBtn, SendToQQBtn;
 	switch (message)
 	{
 	case EZWM_CREATE:
@@ -265,7 +269,14 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 		EZSendMessage(QueryBtn, EZWM_SETFONT, 0, &FontForm);
 		EZSendMessage(QueryBtn, EZWM_SETCOLOR, RGB(0, 0, 0), RGB(0, 0, 0));
 
-		ViewPageWnd = CreateEZWindow(ezWnd, 110, 110, 650, 300, HomeworkViewHoldProc);
+		FontForm.lfHeight = 27;
+		SendToQQBtn = CreateEZStyleWindow(ezWnd, TEXT("发送到QQ"), EZS_CHILD | EZS_BUTTON, 45, 110, 120, 50);
+		EZSendMessage(SendToQQBtn, EZWM_SETTEXTALIGN, DT_CENTER | DT_VCENTER | DT_SINGLELINE, 0);
+		EZSendMessage(SendToQQBtn, EZWM_SETFONT, 0, &FontForm);
+		EZSendMessage(SendToQQBtn, EZWM_SETCOLOR, RGB(0, 0, 0), RGB(0, 0, 0));
+
+		HomeworkViewWnd = 0;
+		ViewPageWnd = CreateEZWindow(ezWnd, 190, 110, 610, 300, HomeworkViewHoldProc);
 
 		//
 
@@ -299,6 +310,10 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 			EZSendMessage(HomeworkViewWnd, EZWM_USER_NOTIFY, 1, 0);
 			EZRepaint(ezWnd, 0);
 		}
+		else if (lParam == SendToQQBtn)
+		{
+			PopupWin((Config->Width - 630) / 2, (Config->Height - 380) / 2, 630, 380, SendToQQDlgProc);
+		}
 	}
 	return 0;
 }
@@ -309,19 +324,14 @@ EZWNDPROC ViewHomeworkProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lPara
 EZWNDPROC HomeworkViewHoldProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 {
 
-	static EZWND ScrollBar, ScrollLayer;
+	EZWND ScrollBar, ScrollLayer;
 	switch (message)
 	{
 	case EZWM_CREATE:
 
 		ScrollBar = CreateEZStyleWindow(ezWnd, TEXT(""), EZS_CHILD | EZS_CHILD_VSCROLL, ezWnd->Width - 24, 0, 24, ezWnd->Height);
 		ScrollLayer = CreateEZWindow(ezWnd, 0, 0, ezWnd->Width - 24, ezWnd->Height, HomeworkViewScrollLayer);
-		//MoveEZWindow(ezWnd->Extend->hExtend[1],//竖直，V
-		//	ezWnd->Width - 15, 0,
-		//	CHK_ALT_STYLE(ezWnd->EZStyle, EZS_VSCROLL) ? (15) : (0),
-		//	CHK_ALT_STYLE(ezWnd->EZStyle, EZS_HSCROLL) ? (ezWnd->Height - 15) : (ezWnd->Height)
-		//	, 0);
-
+		ezWnd->Extend = ScrollLayer;
 
 		EZSendMessage(ScrollBar, EZWM_SETSCROLLRANGE, 1200, 0);
 		EZSendMessage(ScrollBar, EZWM_SETSCROLLPOS, 0, ezWnd->Height);
@@ -331,7 +341,7 @@ EZWNDPROC HomeworkViewHoldProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM l
 		PatBlt(wParam, 0, 0, ezWnd->Width, ezWnd->Height, WHITENESS);
 		return 0;
 	case EZWM_SCROLLPOSCHANGE:
-		ScrollEZWindow(ScrollLayer, 0, -(int)wParam, 0);
+		ScrollEZWindow(ezWnd->Extend, 0, -(int)wParam, 0);
 		/*ScrollLayer->ScrollY = ;*/
 
 		return 0;
@@ -343,7 +353,7 @@ EZWNDPROC HomeworkViewHoldProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM l
 
 EZWNDPROC HomeworkViewScrollLayer(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 {
-	static HDC hdcBorder;
+	 HDC hdcBorder;
 	switch (message)
 	{
 	case EZWM_CREATE:
@@ -380,22 +390,24 @@ EZWNDPROC HomeworkViewScrollLayer(EZWND ezWnd, int message, WPARAM wParam, LPARA
 			free(pData);
 			DeleteObject(SelectObject(hdcBorder, hSel));
 		}
+		ezWnd->Extend = hdcBorder;
 		ezWnd->Transparent = 100;
-		HomeworkViewWnd = CreateEZWindow(ezWnd, 0, 0, ezWnd->Width, 1200, HomeworkViewProc);
+		EZWND HomeworkViewWndBuf = CreateEZWindow(ezWnd, 0, 0, ezWnd->Width, 1200, HomeworkViewProc);
+		if (!HomeworkViewWnd)HomeworkViewWnd = HomeworkViewWndBuf;
 		return 0;
 	case EZWM_TRANSDRAW:
 	{
 		BLENDFUNCTION bf = { 0 };
 		bf.AlphaFormat = AC_SRC_ALPHA;
 		bf.SourceConstantAlpha = 255;
-		AlphaBlend(wParam, 0, 0, ezWnd->Width, ezWnd->Height, hdcBorder, 50, 44, ezWnd->Width, ezWnd->Height, bf);
+		AlphaBlend(wParam, 0, 0, ezWnd->Width, ezWnd->Height, ezWnd->Extend, 50, 44, ezWnd->Width, ezWnd->Height, bf);
 		//StretchBlt(wParam, 0, 0, ezWnd->Width, ezWnd->Height, hdcBorder, 50, 50, ezWnd->Width, ezWnd->Height, SRCCOPY);
 	}
 
 	//PatBlt(wParam, 0, 0, ezWnd->Width, ezWnd->Height, BLACKNESS);
 	break;
 	case EZWM_DESTROY:
-		DeleteMemDC(hdcBorder);
+		DeleteMemDC(ezWnd->Extend);
 		break;
 	}
 	return 0;
@@ -403,7 +415,7 @@ EZWNDPROC HomeworkViewScrollLayer(EZWND ezWnd, int message, WPARAM wParam, LPARA
 
 EZWNDPROC HomeworkViewProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 {
-	static char TextBuffer[32768];
+	
 	RECT rect;
 	switch (message)
 	{
@@ -571,10 +583,15 @@ int TextNodeDFS(GumboNode * node, char TextBuffer[])
 	}
 }
 
+HBITMAP LoadJpegFromData(PBYTE pData, DWORD DataLength);
+
 
 EZWNDPROC AboutProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 {
 	static EZWND AboutTitle, AboutText;
+	static HDC QRCodeDC;
+	static HBITMAP QRCodehBmp;
+	static BITMAP QRCodeBitmap;
 	switch (message)
 	{
 	case EZWM_CREATE:
@@ -584,11 +601,28 @@ EZWNDPROC AboutProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 		EZSendMessage(AboutTitle, EZWM_SETFONT, 0, &FontForm);
 		AboutTitle->Transparent = 0;
 
-		AboutText = CreateEZStyleWindow(ezWnd, TEXT("版本：Prerelease ")TEXT(szVersion)TEXT(" 32位\r\n编译日期：")TEXT(__DATE__)TEXT("\r\n\r\n本软件遵循MIT开源协议，项目地址：https://github.com/yh-git/Homework-Viewer \r\n\r\nHomework Viewer的诞生离不开Google Gumbo解析库和其他的开源软件。\r\n\r\n如有Bug反馈，建议，和其他问题请直接联系yh。\r\n学业繁忙，如果修复Bug咕咕咕了请原谅"), EZS_CHILD | EZS_STATIC, 50, 85, ezWnd->Width, ezWnd->Height);
+		AboutText = CreateEZStyleWindow(ezWnd, TEXT("版本：Prerelease ")TEXT(szVersion)TEXT(" 32位\r\n编译日期：")TEXT(__DATE__)TEXT("\r\n\r\n本软件遵循MIT开源协议，项目地址：https://github.com/yh-git/Homework-Viewer \r\n\r\nHomework Viewer的诞生离不开Google Gumbo解析库和其他的开源软件。\r\n\r\n如有Bug反馈，建议，和其他问题请直接联系yh。\r\n学业繁忙，如果修复Bug咕咕咕了请原谅\r\n\r\n如果你喜欢 Homework Viewer 请考虑小小的捐助 yh 以支持该项目继续发展.\r\n支付宝："), EZS_CHILD | EZS_STATIC, 50, 85, ezWnd->Width, ezWnd->Height);
 		FontForm.lfHeight = 40 * (4.0 / 7.0);
 		EZSendMessage(AboutText, EZWM_SETTEXTALIGN, DT_LEFT, 0);
 		EZSendMessage(AboutText, EZWM_SETFONT, 0, &FontForm);
 		AboutText->Transparent = 0;
+		HGLOBAL hRes;
+		HRSRC hRsrc;
+		hRes = LoadResource(NULL, hRsrc = FindResource(NULL, MAKEINTRESOURCE(IDR_JPEG1), TEXT("JPEG")));
+		QRCodehBmp = LoadJpegFromData(LockResource(hRes), SizeofResource(NULL, hRsrc));
+
+		GetObject(QRCodehBmp, sizeof(BITMAP), &QRCodeBitmap);
+		QRCodeDC = CreateCompatibleDC(ezWnd->hdc);
+
+		SelectBitmap(QRCodeDC, QRCodehBmp);
+		break;
+	case EZWM_DRAW:
+		SetStretchBltMode(wParam, HALFTONE);
+		StretchBlt(wParam, 137, 325, 125, 125, QRCodeDC, 0, 0, QRCodeBitmap.bmWidth, QRCodeBitmap.bmHeight, SRCCOPY);
+		break;
+	case EZWM_DESTROY:
+		DeleteDC(QRCodeDC);
+		DeleteBitmap(QRCodehBmp);
 	}
 }
 
@@ -758,7 +792,7 @@ BOOL TryLogonPlatform()
 			ContentBuf,
 			strlen(ContentBuf)) == 0)
 		{
-			if (HttpSendRequestW(hInetLogonIndex, NULL, 0, 0, 0) == 0)
+			//if (HttpSendRequestW(hInetLogonIndex, NULL, 0, 0, 0) == 0)
 			{
 				MessageBox(NULL, TEXT("发送连接请求失败！请检查网络Σ（ﾟдﾟ|||）\r\n具体信息：HttpSendRequestW执行出错"), szAppName, MB_TASKMODAL);
 				__leave;
@@ -809,4 +843,123 @@ BOOL TryLogonPlatform()
 	}
 
 	return bRet;
+}
+
+EZWNDPROC SendToQQDlgProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
+{
+	static EZWND QQText, QQEdit,NoteText, TextPreviewStatic, TextPreview, SendBtn;
+	switch (message)
+	{
+	case EZWM_CREATE:
+		FontForm.lfHeight = 30;
+		QQText = CreateEZStyleWindow(ezWnd, TEXT("QQ号:"), EZS_STATIC | EZS_CHILD, 40, 33, 100, 30);
+		EZSendMessage(QQText, EZWM_SETFONT, 0, &FontForm);
+
+		QQEdit = CreateEZStyleWindow(ezWnd, TEXT(""), EZS_EDIT | EZS_CHILD, 125, 33, 180, 30);
+		EZSendMessage(QQEdit, EZWM_SETFONT, 0, &FontForm);
+
+		FontForm.lfHeight = 20;
+		NoteText = CreateEZStyleWindow(ezWnd, TEXT("注意:使用该功能前必须先加QQ好友 3211238534（作业推送君）"), EZS_STATIC | EZS_CHILD, 335, 30, 230, 40);
+		EZSendMessage(NoteText, EZWM_SETFONT, 0, &FontForm);
+		EZSendMessage(NoteText, EZWM_SETTEXTALIGN, DT_EDITCONTROL | DT_LEFT | DT_WORDBREAK | DT_NOCLIP, 0);
+		EZSendMessage(NoteText, EZWM_SETCOLOR, RGB(255,255,255), RGB(255, 0, 0));
+
+
+		TextPreviewStatic = CreateEZStyleWindow(ezWnd, TEXT("以下内容将被发送到你的QQ:"), EZS_STATIC | EZS_CHILD, 48, 78, 300, 22);
+		EZSendMessage(TextPreviewStatic, EZWM_SETFONT, 0, &FontForm);
+
+		CreateEZWindow(ezWnd, 40, 110, ezWnd->Width - 80, 210, HomeworkViewHoldProc);
+
+		SendBtn = CreateEZStyleWindow(ezWnd, TEXT("发送"), EZS_CHILD|EZS_BUTTON,(ezWnd->Width - 120) / 2, (320) + ((ezWnd->Height - 320) - 35) / 2, 120, 35);
+
+		EZSendMessage(SendBtn, EZWM_SETFONT, 0, &FontForm);
+		EZSendMessage(SendBtn, EZWM_SETCOLOR, RGB(0, 0, 0), RGB(0, 0, 0));
+		/*FontForm.lfHeight = 28;
+		这里恐怕要手动TextOut，或者转换字符编码
+		TextPreview = CreateEZStyleWindow(ezWnd, TextBuffer, EZS_STATIC | EZS_CHILD, 40, 120, ezWnd->Width - 80, 150);
+		EZSendMessage(TextPreview, EZWM_SETFONT, 0, &FontForm);
+		EZSendMessage(TextPreview, EZWM_SETTEXTALIGN, DT_EDITCONTROL | DT_LEFT | DT_WORDBREAK | DT_NOCLIP | DT_NOPREFIX, 0);*/
+		break;
+
+	case EZWM_COMMAND:
+		if (lParam == SendBtn)
+		{
+			HINTERNET hGlobal= 0,hCoolqServer=0, hSendRequest=0;
+			char* JsonText=0;
+			__try
+			{
+				hGlobal = InternetOpenW(L"Homework Viewer", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+				if (!hGlobal)__leave;
+
+				hCoolqServer = InternetConnectW(hGlobal, L"118.25.102.89", 5700, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
+				if (!hCoolqServer)__leave;
+				PCWSTR szAcceptTypes[] = { L"text/*",L"*/*", NULL };
+				hSendRequest=HttpOpenRequestW(hCoolqServer, L"POST", L"/send_private_msg", NULL, NULL, szAcceptTypes, 0,0);
+				if (!hSendRequest)__leave;
+
+
+				//创建json文本
+				cJSON* JsonRoot, * JsonUserID, * JsonMessage;
+				JsonRoot = cJSON_CreateObject();
+				int QQID = _ttoi(QQEdit->Extend->Title);
+				JsonUserID = cJSON_CreateNumber(QQID);
+				WCHAR* WcharBuf;
+				char* UTF8Buf;
+				int cchWC = MultiByteToWideChar(CP_ACP, 0, TextBuffer, -1, 0, 0);
+				WcharBuf = malloc(cchWC * sizeof(WCHAR));
+				MultiByteToWideChar(CP_ACP, 0, TextBuffer, -1, WcharBuf,cchWC);
+
+				int cbUTF8 = WideCharToMultiByte(CP_UTF8, 0, WcharBuf, -1, 0, 0, 0, 0);
+				UTF8Buf = malloc(cbUTF8);
+				WideCharToMultiByte(CP_UTF8, 0, WcharBuf, -1, UTF8Buf, cbUTF8, 0, 0);
+				free(WcharBuf);
+				JsonMessage = cJSON_CreateString(UTF8Buf);
+				free(UTF8Buf);
+				cJSON_AddItemToObject(JsonRoot, "user_id", JsonUserID);
+				cJSON_AddItemToObject(JsonRoot, "message", JsonMessage);
+
+				
+
+				JsonText= cJSON_PrintUnformatted(JsonRoot);
+				if (HttpSendRequestW(hSendRequest, L"Content-Type: application/json\r\n", lstrlenW(L"Content-Type: application/json\r\n"),
+					JsonText,
+					strlen(JsonText)) == 0)
+				{
+					__leave;
+				}
+			}
+			__finally
+			{
+				if (hGlobal)InternetCloseHandle(hGlobal);
+				if (hCoolqServer)InternetCloseHandle(hCoolqServer);
+				if (hSendRequest)InternetCloseHandle(hSendRequest);
+				free(JsonText);
+			}
+
+		}
+		else
+		{
+			if (wParam == 1)UnPopupWin();
+		}
+		break;
+	case EZWM_DRAW:
+		SelectObject(wParam, hB_AC);
+		PatBlt(wParam, 0, 0, ezWnd->Width, 8, PATCOPY);
+		PatBlt(wParam, 0, 8, ezWnd->Width, ezWnd->Height - 8, WHITENESS);
+
+		SelectObject(wParam, CreatePen(PS_SOLID | PS_INSIDEFRAME, 2, APP_COLOR));
+
+		if (QQEdit)
+		{
+			MoveToEx(wParam, QQEdit->x - 3, QQEdit->y + QQEdit->Height + 2, 0);
+			LineTo(wParam, QQEdit->x + QQEdit->Width + 3, QQEdit->y + QQEdit->Height + 2);
+			//Rectangle(wParam, QQEdit->x - 2, QQEdit->y - 2, QQEdit->x + QQEdit->Width + 2, QQEdit->y + QQEdit->Height + 2);
+		}
+		DeleteObject(SelectObject(wParam, GetStockObject(BLACK_PEN)));
+
+
+
+		break;
+	}
+	return 0;
 }
