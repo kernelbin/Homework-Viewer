@@ -383,7 +383,7 @@ EZWNDPROC UpdatePageProc(EZWND ezWnd, int message, WPARAM wParam, LPARAM lParam)
 			InternetGlobal = InternetOpenW(L"Homework Viewer", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 			if (!InternetGlobal)__leave;
 
-			InetUpdateCheck = InternetOpenUrl(InternetGlobal, TEXT("http://118.25.77.58/HomeworkViewer/update.txt"), 0, 0, INTERNET_FLAG_NEED_FILE, 0);
+			InetUpdateCheck = InternetOpenUrl(InternetGlobal, TEXT("http://118.25.77.58/HomeworkViewer/update.txt"), 0, 0, 0, 0);
 			if (!InetUpdateCheck)__leave;
 
 			char UpdateVer[16] = { 0 };
