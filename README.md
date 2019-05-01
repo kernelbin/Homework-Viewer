@@ -1,6 +1,7 @@
 # Homework-Viewer
 
 同一附（同济大学第一附属中学）校园网作业查看器，Win32编写。
+通过模拟登陆平台获取作业。
 
 ## 截图
 ![](https://github.com/yh-git/Homework-viewer/blob/master/doc/1.png)
