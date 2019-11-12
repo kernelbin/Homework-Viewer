@@ -1,5 +1,7 @@
 # Homework-Viewer
 
+ ***此项目已经随着校园网的更新而作废。不过校园网的登录流程和加密算法仍可以参考。如果您有继续使用的需求，请在issue中提出或直接联系我。feel free to fork this repo and make some changes.***
+ 
 同一附（同济大学第一附属中学）校园网作业查看器，Win32编写。
 通过模拟登陆平台获取作业。
 
